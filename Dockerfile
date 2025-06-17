@@ -15,3 +15,11 @@ RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-avail
 
 # Habilitar el módulo rewrite
 RUN a2enmod rewrite
+
+# Configurar Apache para escuchar en el puerto que Render asigna
+ENV APACHE_LISTEN_PORT=${PORT:-8080}
+
+RUN sed -ri "s/Listen 80/Listen ${APACHE_LISTEN_PORT}/g" /etc/apache2/ports.conf \
+    && sed -ri "s/<VirtualHost \*:80>/<VirtualHost *:${APACHE_LISTEN_PORT}>/g" /etc/apache2/sites-available/000-default.conf
+
+EXPOSE ${APACHE_LISTEN_PORT}

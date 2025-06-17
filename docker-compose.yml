@@ -7,8 +7,6 @@ services:
       - "8080:80"
     volumes:
       - .:/var/www/html
-    depends_on:
-      - db
     environment:
       # - DB_HOST=db
       # - DB_NAME=mi_base_datos
