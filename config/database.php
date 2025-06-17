@@ -1,12 +1,21 @@
 <?php
 
 class Database {
-    private $host =getenv("HOST")?: "db";
-    private $db_name = getenv("DATABASE")?:"mi_base_datos";
-    private $user =getenv("USER")?: "root";
-    private $password =getenv("PASSWORD")?: "secret";
-    private $port =getenv("PORT")?: "3360";
+    private $host;
+    private $db_name;
+    private $user;
+    private $password;
+    private $port;
     public $conn;
+
+
+     public function __construct() {
+        $this->host     = getenv("HOST") ?: "db";
+        $this->db_name  = getenv("DATABASE") ?: "postgres";
+        $this->user     = getenv("USER") ?: "postgres";
+        $this->password = getenv("PASSWORD") ?: "secret";
+        $this->port     = getenv("PORT") ?: "5432";
+    }
     
     public function getConnection() {
         

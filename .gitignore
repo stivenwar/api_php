@@ -1,0 +1,38 @@
+# Ignorar archivos del entorno PHP
+/vendor/
+*.log
+*.cache
+composer.lock
+
+# Ignorar archivos de configuración del entorno local
+.env
+.env.local
+.env.production
+.env.*
+
+# Ignorar archivos de Docker
+*.pid
+*.tar
+*.bak
+*.swp
+*.swo
+*.tmp
+docker-compose.override.yml
+
+# Ignorar volúmenes y datos de base de datos
+db_data/
+*.sql
+*.sqlite
+
+# Ignorar configuraciones del IDE
+.vscode/
+.idea/
+*.iml
+
+# Ignorar archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Node.js (si usas algo de frontend)
+node_modules/
+dist/

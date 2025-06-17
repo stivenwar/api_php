@@ -4,9 +4,8 @@ FROM php:8.2-apache
 #RUN docker-php-ext-install pdo pdo_mysql
 
 # Instalar extensiones PDO para MySQL y PostgreSQL
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    && docker-php-ext-install pdo_pgsql
+RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo_pgsql
+
 
 # Copiar todo el proyecto al contenedor
 COPY . /var/www/html
