@@ -18,6 +18,12 @@ class Database {
     }
     
     public function getConnection() {
+
+        print($this->host);
+        print($this->db_name);
+        print($this->user);
+        print($this->password);
+        print($this->port);
         
          $this->conn = null;
 
