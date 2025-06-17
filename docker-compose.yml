@@ -10,22 +10,41 @@ services:
     depends_on:
       - db
     environment:
-      - DB_HOST=db
-      - DB_NAME=mi_base_datos
-      - DB_USER=root
-      - DB_PASS=secret
+      # - DB_HOST=db
+      # - DB_NAME=mi_base_datos
+      # - DB_USER=root
+      # - DB_PASS=secret
+       - DB_HOST=${HOST}
+       - DB_NAME=${DATABASE}
+       - DB_USER=${USER}
+       - DB_PASS=${PASSWORD}
+      
 
   db:
-    image: mysql:8.0
-    container_name: mysql-db
+    image: postgres:16
+    container_name: postgres-db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: mi_base_datos
+      POSTGRES_PASSWORD: ${PASSWORD}
+      POSTGRES_DB: ${DATABASE}
+      POSTGRES_USER: ${USER}
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/postgresql/data
+
+      
+  # db:
+  #   image: mysql:8.0
+  #   container_name: mysql-db
+  #   restart: always
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: secret
+  #     MYSQL_DATABASE: mi_base_datos
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - db_data:/var/lib/mysql
 
   #phpmyadmin:
    # image: phpmyadmin/phpmyadmin
