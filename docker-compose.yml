@@ -20,19 +20,21 @@ services:
        - DB_PASS=${PASSWORD}
       
 
-  db:
-    image: postgres:16
-    container_name: postgres-db
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: ${PASSWORD}
-      POSTGRES_DB: ${DATABASE}
-      POSTGRES_USER: ${USER}
-    ports:
-      - "5432:5432"
-    volumes:
-      - db_data:/var/lib/postgresql/data
-
+ 
+#db:
+   #  image: postgres:16
+    # container_name: postgres-db
+    # restart: always
+    # environment:
+    #   POSTGRES_PASSWORD: ${PASSWORD}
+    #   POSTGRES_DB: ${DATABASE}
+    #   POSTGRES_USER: ${USER}
+    # ports:
+    #   - "5432:5432"
+    # volumes:
+    #  - db_data:/var/lib/postgresql/data
+#
+#
       
   # db:
   #   image: mysql:8.0
