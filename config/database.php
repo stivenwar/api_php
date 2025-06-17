@@ -19,11 +19,11 @@ class Database {
     
     public function getConnection() {
 
-        print($this->host."-------------");
-        print($this->db_name."-------------");
-        print($this->user."-------------");
-        print($this->password."-------------");
-        print($this->port."-------------");
+        // print($this->host."-------------");
+        // print($this->db_name."-------------");
+        // print($this->user."-------------");
+        // print($this->password."-------------");
+        // print($this->port."-------------");
         
          $this->conn = null;
 
@@ -46,6 +46,8 @@ class Database {
             $this->conn = new PDO($dsn, $this->user, $this->password);
             // En PostgreSQL no hace falta "set names utf8" porque viene por defecto en UTF-8
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            error_log("✅ Conexión exitosa a la base de datos PostgreSQL.");
+
         } catch (PDOException $e) {
             error_log("Error en la conexión: " . $e->getMessage());
             throw $e;
