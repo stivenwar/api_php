@@ -12,10 +12,10 @@ services:
       # - DB_NAME=mi_base_datos
       # - DB_USER=root
       # - DB_PASS=secret
-       - DB_HOST=${HOST}
-       - DB_NAME=${DATABASE}
-       - DB_USER=${USER}
-       - DB_PASS=${PASSWORD}
+       - DB_HOST=${DB_HOST}
+       - DB_NAME=${DB_DATABASE}
+       - DB_USER=${DB_USER}
+       - DB_PASS=${DB_PASSWORD}
       
 
  

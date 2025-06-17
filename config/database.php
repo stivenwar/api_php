@@ -10,11 +10,11 @@ class Database {
 
 
      public function __construct() {
-        $this->host     = getenv("HOST") ?: "db";
-        $this->db_name  = getenv("DATABASE") ?: "postgres";
-        $this->user     = getenv("USER") ?: "postgres";
-        $this->password = getenv("PASSWORD") ?: "secret";
-        $this->port     = getenv("PORT") ?: "5432";
+        $this->host     = getenv("DB_HOST") ?: "db";
+        $this->db_name  = getenv("DB_DATABASE") ?: "postgres";
+        $this->user     = getenv("DB_USER") ?: "postgres";
+        $this->password = getenv("DB_PASSWORD") ?: "secret";
+        $this->port     = getenv("DB_PORT") ?: "5432";
     }
     
     public function getConnection() {
