@@ -18,7 +18,7 @@ class SuppliersController {
     public function create(){
         $todosInsertados = true;
         $dataJson = json_decode(file_get_contents("php://input"));
-        var_dump($dataJson);
+        #var_dump($dataJson);
         
     foreach($dataJson as $data){
 
@@ -69,8 +69,12 @@ class SuppliersController {
                 
             }
 
+
+             header('Content-Type: application/json; charset=utf-8');
              http_response_code(200);
+      
              echo json_encode($supplier_arr);
+
 
         }else {
               http_response_code(503);
@@ -82,3 +86,4 @@ class SuppliersController {
     }
 
 }
+?>

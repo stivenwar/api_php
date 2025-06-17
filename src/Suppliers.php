@@ -34,9 +34,9 @@ class Suppliers {
     }
     public function readSuppliers (){
         $query = "SELECT * FROM " . $this->table_name;
-        #var_dump($query);
+    
         $stmt = $this->conn->prepare($query);
-
+     
         $stmt->execute();
 
         return $stmt;

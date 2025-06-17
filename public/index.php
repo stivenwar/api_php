@@ -3,11 +3,10 @@
 require_once __DIR__ . '/../src/SuppliersController.php';
 
 $method = $_SERVER["REQUEST_METHOD"];
-echo $method;
 $supplierController = new SuppliersController();
 
-//header("Access-Control-Allow-Origin: *");
-//header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
 
 switch ($method) {
         case 'POST':
