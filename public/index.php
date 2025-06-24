@@ -143,6 +143,27 @@ switch ($method) {
 }
 */
 // Despachar ruta
+
+
+function handleCors() {
+    // Permitir acceso desde cualquier origen (o cambia por el dominio permitido)
+    header("Access-Control-Allow-Origin: *");
+
+    // Métodos permitidos
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+
+    // Encabezados permitidos
+    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+    // Si es preflight (OPTIONS), termina aquí
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        http_response_code(204); // No Content
+        exit;
+    }
+}
+
+handleCors();
+
 $matcher = $routerContainer->getMatcher();
 
 $request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
