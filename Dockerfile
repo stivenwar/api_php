@@ -6,9 +6,15 @@ FROM php:8.2-apache
 # Instalar extensiones PDO para MySQL y PostgreSQL
 RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo_pgsql
 
-
+RUN curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer
+    
 # Copiar todo el proyecto al contenedor
 COPY . /var/www/html
+
+
+# Ejecutar composer install
+RUN composer install --no-dev --optimize-autoloader
 
 # Cambiar DocumentRoot a la carpeta public
 RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
