@@ -15,8 +15,10 @@ class Suppliers {
         $this->conn = $db;
     }
 
-    public function createSuppliers() {
-        $query = "INSERT INTO " . $this->table_name . "(id_suppliers,supplier,description,created_at) values (null,:supplier,:description,NOW())";
+
+    public function createSuppliers() { 
+
+        $query = "INSERT INTO " . $this->table_name . "(supplier,description,created_at) values (:supplier,:description,NOW())";
         #var_dump($query);
         $stmt = $this->conn->prepare($query);
         
@@ -33,7 +35,28 @@ class Suppliers {
         return false;
     }
     public function readSuppliers (){
-        $query = "SELECT * FROM " . $this->table_name;
+        $query = "SELECT
+    json_agg(
+        json_build_object(
+            'id_suppliers', s.id_suppliers,
+            'supplier', s.supplier,
+            'description', s.description,
+            'created_at', s.created_at,
+            'products', COALESCE((
+                SELECT json_agg(
+                    json_build_object(
+                         'id_supplier', p.id_supplier,
+                        'name_product', p.name_product,
+                        'description_product', p.description_product,
+                        'created_at', p.created_at
+                    )
+                )
+                FROM products p
+                WHERE p.id_supplier = s.id_suppliers
+            ), '[]'::json)
+        )
+    ) AS suppliers_with_products
+FROM suppliers s";
     
         $stmt = $this->conn->prepare($query);
      

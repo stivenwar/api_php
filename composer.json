@@ -1,0 +1,22 @@
+{
+    "name": "esteb/api_php",
+    "description": "php api",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "ApiPhp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "esteban",
+            "email": "estebanguerra1990@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "aura/router": "^3.4",
+        "laminas/laminas-diactoros": "^3.6"
+    }
+}

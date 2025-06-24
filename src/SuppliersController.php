@@ -15,75 +15,47 @@ class SuppliersController {
         $this->supplierController = new Suppliers($this->db);
     }
 
-    public function create(){
-        $todosInsertados = true;
-        $dataJson = json_decode(file_get_contents("php://input"));
-        #var_dump($dataJson);
-        
-    foreach($dataJson as $data){
+    public function create($data){
+        $todosInsertados = false;
+        // $dataJson = json_decode(file_get_contents("php://input"))
+         if (!empty($data['supplier']) && !empty($data['description'])) {
+            $this->supplierController->supplier = $data['supplier'];
+             $this->supplierController->description = $data['description'];
 
-      
-
-        if (!empty($data->supplier)&& !empty($data->description)) {
-            $this->supplierController->supplier = $data->supplier;
-            $this->supplierController->description = $data->description;
-
-            if(!$this->supplierController->createSuppliers()){
-                $todosInsertados = false;
-            }
-
-
+            $todosInsertados = $this->supplierController->createSuppliers();
         } else {
-               $todosInsertados = false;
-        }
+            $todosInsertados = false;
+             }
+
+    return $todosInsertados;
+    
+
 
     }
+    
+           
         
 
-        if($todosInsertados){
-             http_response_code(201);
-             echo json_encode(["message"=>"Producto creado correctamente"]);
-        }else{
-            http_response_code(503);
-            echo json_encode(["message"=>"Producto no creado"]);
-        }
-        
+
+   public function read(): array
+{
+    $stmt = $this->supplierController->readSuppliers();
+    $num  = $stmt->rowCount();
+
+    if ($num > 0) {
+         $registros = [];
+     
     }
+   $row = $stmt->fetch(PDO::FETCH_ASSOC); // Solo un resultado
 
-    public function read(){
-        $stmt = $this->supplierController->readSuppliers();
-        $num= $stmt->rowCount();
+if ($row && isset($row['suppliers_with_products'])) {
+    // Decodifica el JSON directamente
+  $registros = json_decode($row['suppliers_with_products'], true); // ← Decodifica correctamente
 
-        if($num>0){
-            $supplier_arr = [];
-            $supplier_arr["registros"] = [];
+    return ['registros' => $registros];
+}
 
-            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                extract($row);
-
-                $supplier_item = [
-                    "supplier"=> $supplier,
-                    "description"=> $description
-                ];
-                array_push($supplier_arr["registros"],$supplier_item);
-                
-            }
-
-
-             header('Content-Type: application/json; charset=utf-8');
-             http_response_code(200);
-      
-             echo json_encode($supplier_arr);
-
-
-        }else {
-              http_response_code(503);
-              echo json_encode(["message"=>"Producto no creado"]);
-        }
-
-        
-        
-    }
-
+    return [];
+}
 }
 ?>
