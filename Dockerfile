@@ -9,8 +9,10 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     zip \
-    && docker-php-ext-install pdo_pgsql zip
-    
+    libzip-dev \
+    && docker-php-ext-install pdo_pgsql zip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer
 
