@@ -3,7 +3,7 @@
 use Aura\Router\RouterContainer;
 
 require_once __DIR__ . '/../src/SuppliersController.php';
-require_once __DIR__ . '/../src/productosController.php';
+require_once __DIR__ . '/../src/ProductosController.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 
 //$method = $_SERVER["REQUEST_METHOD"];
@@ -104,7 +104,7 @@ $map->post('sendProducts', '/createProducts', function ($request, $response) use
     }
 
 
-    
+
     $allok = $productController->create($res);
 
     if(!$allok){
