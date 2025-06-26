@@ -45,7 +45,8 @@ class Suppliers {
             'products', COALESCE((
                 SELECT json_agg(
                     json_build_object(
-                         'id_supplier', p.id_supplier,
+                        'id_product', p.id_product,
+                        'id_supplier', p.id_supplier,
                         'name_product', p.name_product,
                         'description_product', p.description_product,
                         'created_at', p.created_at
