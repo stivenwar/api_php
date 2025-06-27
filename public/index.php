@@ -98,12 +98,13 @@ $map->post('sendQuantity', '/sendQuantity', function ($request, $response) use (
     $allok = $quantityController->createQuantity($json);
 
     if(!$allok){
-         return $response->withStatus(302)
-            ->withHeader('Location','/getFormList?error=1');
+         $response->getBody()->write("Archivo no encontrado");
+        return $response->withStatus(404);
+            
     }
 
-    return $response->withStatus(200)
-            ->withHeader('Location','/getFormList?success=1');
+      $response->getBody()->write($json);
+        return $response->withStatus(201);
   
     
 });
