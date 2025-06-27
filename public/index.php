@@ -1,4 +1,14 @@
 <?php
+function handleCors(): void {
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        http_response_code(204);
+        exit;
+    }
+}
+handleCors();
 
 use Aura\Router\RouterContainer;
 
@@ -103,57 +113,11 @@ $map->post('sendQuantity', '/sendQuantity', function ($request, $response) use (
             
     }
 
-      $response->getBody()->write($json);
+      $response->getBody()->write("success");
         return $response->withStatus(201);
   
     
 });
-
-
-
-/*
-
-switch ($method) {
-        case 'POST':
-          
-        break;
-        case 'GET':
-          $supplierController->read();
-        break;
-        case 'PUT':
-         #$supplierController->update();
-        break;
-        case 'DELETE':
-        #$supplierController->delete();
-        break;
-    
-    default:
-         http_response_code(405);
-         echo json_encode(["message" => "método no permitido"]);
-        break;
-}
-*/
-// Despachar ruta
-
-
-function handleCors() {
-    // Permitir acceso desde cualquier origen (o cambia por el dominio permitido)
-    header("Access-Control-Allow-Origin: *");
-
-    // Métodos permitidos
-    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-
-    // Encabezados permitidos
-    header("Access-Control-Allow-Headers: Content-Type, Authorization");
-
-    // Si es preflight (OPTIONS), termina aquí
-    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-        http_response_code(204); // No Content
-        exit;
-    }
-}
-
-handleCors();
 
 $matcher = $routerContainer->getMatcher();
 
