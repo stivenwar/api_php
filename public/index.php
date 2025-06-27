@@ -2,39 +2,25 @@
 
 use Aura\Router\RouterContainer;
 
-require_once __DIR__ . '/../src/SuppliersController.php';
 require_once __DIR__ . '/../src/ProductosController.php';
+require_once __DIR__ . '/../src/QuantityController.php';
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ .'/../routes/routesHandlers.php';
 
 //$method = $_SERVER["REQUEST_METHOD"];
-$supplierController = new SuppliersController();
+
 $productController = new ProductController();
+$quantityController = new QuantityController();
 //$requestUri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
 
 $routerContainer = new RouterContainer();
 $map = $routerContainer->getMap();
 
-$map->get('read', '/getList', function ($request, $response) use ($supplierController,$productController) {
+$map->get('read', '/getList', 'getSupliersHandler' );
+$map->post('sendForm', '/createList', 'createListHandler' );
 
-    $data = $supplierController->read();    
-  
-
-       // array devuelto
-
-    $json = json_encode($data);
-  
-
-    $response->getBody()->write($json);
-
-    // Si la lista está vacía, eliges 404 o 200 según tu criterio:
-    $status = empty($data) ? 404 : 200;
-
-    return $response
-        ->withHeader('Content-Type', 'application/json; charset=utf-8')
-        ->withStatus($status);
-});
-$map->get('sendToUser', '/', function ($request, $response) use ($supplierController) {
+$map->get('sendToUser', '/', function ($request, $response) {
 
      $file = __DIR__ . '/index.html';  // Ajusta la ruta según tu estructura
 
@@ -52,7 +38,7 @@ $map->get('sendToUser', '/', function ($request, $response) use ($supplierContro
 });
 
 
-$map->get('getForm', '/getFormList', function ($request, $response) use ($supplierController) {
+$map->get('getForm', '/getFormList', function ($request, $response) {
 
      $file =  __DIR__ . '/../views/vistaProveedor.php';  // Ajusta la ruta según tu estructura
 
@@ -69,30 +55,8 @@ $map->get('getForm', '/getFormList', function ($request, $response) use ($suppli
     $response->getBody()->write($html);
     return $response->withHeader('Content-Type', 'text/html; charset=utf-8');
 });
-$map->post('sendForm', '/createList', function ($request, $response) use ($supplierController) {
-
-   
-    $res = $request->getParsedBody();
-    if (empty($res)) {
-      
-        $response->getBody()->write("Archivo no encontrado");
-        return $response->withStatus(404);
-    }
 
 
-
-    $allok = $supplierController->create($res);
-
-    if(!$allok){
-         return $response->withStatus(302)
-            ->withHeader('Location','/getFormList?error=1');
-    }
-
-    return $response->withStatus(200)
-            ->withHeader('Location','/getFormList?success=1');
-  
-    
-});
 $map->post('sendProducts', '/createProducts', function ($request, $response) use ($productController) {
 
  
@@ -106,6 +70,32 @@ $map->post('sendProducts', '/createProducts', function ($request, $response) use
 
 
     $allok = $productController->create($res);
+
+    if(!$allok){
+         return $response->withStatus(302)
+            ->withHeader('Location','/getFormList?error=1');
+    }
+
+    return $response->withStatus(200)
+            ->withHeader('Location','/getFormList?success=1');
+  
+    
+});
+
+$map->post('sendQuantity', '/sendQuantity', function ($request, $response) use ($quantityController) {
+
+ 
+    $json = json_decode($request->getBody()->getContents(), true);
+   
+    if (empty($json)) {
+      
+        $response->getBody()->write("Archivo no encontrado");
+        return $response->withStatus(404);
+    }
+
+
+
+    $allok = $quantityController->createQuantity($json);
 
     if(!$allok){
          return $response->withStatus(302)

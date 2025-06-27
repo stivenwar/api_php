@@ -52,7 +52,7 @@ if (isset($_GET['success'])) {
     </form>
     <br>
     <br>
-
+    <button class="btn">send json</button>
     <div class="loader" style="display: none;">Cargando datos...</div>
       <h1>Lista de Compra</h1>
     <div class="result">
@@ -61,8 +61,11 @@ if (isset($_GET['success'])) {
 
 
     <script>
-    
+ 
+        
 $(document).ready(function () {
+
+    
     $(".loader").show();
 
     const jsonData = [];
@@ -106,6 +109,8 @@ $(document).ready(function () {
     // 👉 Añadir producto
     $(document).on("click", ".addProduct", function () {
           const supplierId = $(this).data("id");
+          console.log(supplierId);
+          
     const name = $(`#name-${supplierId}`).val().trim();
 
     if (!name) {
@@ -150,6 +155,26 @@ $(document).ready(function () {
           
         });
     });
+
+    $(".btn").on("click",function(){
+        let json = [
+        { "id_product":1, "quantity": 3} ,
+  {
+    "id_product":1,
+    "quantity": 3
+  }  ,
+  {
+    "id_product":1,
+    "quantity": 3
+  }  ]
+        sendJson(json);
+    });
+           function sendJson(json){
+            $.post("/sendQuantity", JSON.stringify(json) ,function (responce){
+console.log(responce);
+
+  });
+        }
 });
 </script>
 
