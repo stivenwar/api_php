@@ -49,15 +49,17 @@ class Suppliers {
                         'id_supplier', p.id_supplier,
                         'name_product', p.name_product,
                         'description_product', p.description_product,
-                        'created_at', p.created_at
+                        'created_at', p.created_at,
+                        'quantity', COALESCE(q.quantity, 0)  -- Aquí añadimos cantidad
                     )
                 )
                 FROM products p
+                LEFT JOIN products_quantity q ON q.id_product = p.id_product
                 WHERE p.id_supplier = s.id_suppliers
             ), '[]'::json)
         )
     ) AS suppliers_with_products
-FROM suppliers s";
+FROM suppliers s;";
     
         $stmt = $this->conn->prepare($query);
      

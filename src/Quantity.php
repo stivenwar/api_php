@@ -18,7 +18,9 @@ class Quantity{
 
     public function sendQuantity(){
 
-        $query = "INSERT INTO " .$this->table_name."(id_product,quantity,created_at) values (:id_product,:quantity,NOW())";
+        $query = "INSERT INTO " .$this->table_name."(id_product,quantity,created_at) values (:id_product,:quantity,NOW()) ON CONFLICT (id_product) DO UPDATE 
+          SET quantity = EXCLUDED.quantity,
+              created_at = NOW()";
 
         $stmt = $this->conn->prepare($query);
 
@@ -26,9 +28,11 @@ class Quantity{
         $this->quantity = htmlspecialchars(strip_tags($this->quantity));
 
             $stmt->bindParam(":id_product",$this->id_product);
-             $stmt->bindParam(":quantity",$this->quantity);
+            $stmt->bindParam(":quantity",$this->quantity);
          
         if($stmt->execute()){
+                $errorInfo = $stmt->errorInfo();
+                error_log("Error en query: " . implode(", ", $errorInfo));
             return true;
 
         }

@@ -96,7 +96,7 @@ $map->post('sendQuantity', '/sendQuantity', function ($request, $response) use (
 
  
     $json = json_decode($request->getBody()->getContents(), true);
-   
+
     if (empty($json)) {
       
         $response->getBody()->write("Archivo no encontrado");
@@ -128,8 +128,10 @@ $request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
     $_COOKIE,
     $_FILES
 );
-
+error_log("Requested URI: " . $request->getUri()->getPath());
+error_log("Requested method: " . $request->getMethod());
 $route = $matcher->match($request);
+
 
 if (!$route) {
     http_response_code(404);

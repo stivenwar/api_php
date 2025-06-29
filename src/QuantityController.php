@@ -17,21 +17,33 @@ class QuantityController {
 
     public  function createQuantity($dataQuantity){
 
-        $todosInsertados = false;
-      
+        $todosInsertados = true;
+     
         foreach ($dataQuantity as $key ) {
-         
-            if(!empty($key['id_product'])&& !empty($key['quantity'])){
-                $this->quantityController->id_product = $key['id_product'];
-                $this->quantityController->quantity = $key['quantity'];
 
-                $todosInsertados = $this->quantityController->sendQuantity();
+    
+
+            if(isset($key['id_product'])&& isset($key['quantity']) && $key['quantity'] > 0){
+
+                $this->quantityController->id_product = $key['id_product'];
+    
+                 $this->quantityController->quantity = $key['quantity'];
+                
+                
+
+                $resultado = $this->quantityController->sendQuantity();
+
+                if (!$resultado) {
+                     $todosInsertados = false; // alguna inserción falló
+                }
+
             }else{
-                $todosInsertados = false;
+                
+                 //error_log("Datos recibidos en sendQuantity: " . print_r("error", true));
             }
             
         }
-    
+        
         return $todosInsertados;
 
     }
