@@ -23,7 +23,7 @@ class QuantityController {
 
     
 
-            if(isset($key['id_product'])&& isset($key['quantity']) && $key['quantity'] > 0){
+            if(isset($key['id_product'])&& isset($key['quantity'])){
 
                 $this->quantityController->id_product = $key['id_product'];
     
