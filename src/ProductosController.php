@@ -71,5 +71,19 @@ class ProductController {
     // Lista vacía → el caller podrá decidir si responde 200 o 404
     return [];
 }
+public function deleteProduct($data){
+
+        $this->productController->id_product = $data;
+        $stmt = $this->productController->deleteProduct();
+        return $stmt;
+ 
+    
+
+
+
+
+
+
+}
 }
 ?>

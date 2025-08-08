@@ -34,9 +34,6 @@ class SuppliersController {
     }
     
            
-        
-
-
    public function read(): array
 {
     $stmt = $this->supplierController->readSuppliers();
@@ -57,5 +54,17 @@ if ($row && isset($row['suppliers_with_products'])) {
 
     return [];
 }
+
+public function removeSupplierController($id_supplier){
+//  var_dump($id_supplier);
+    $this->supplierController->id_suppliers = $id_supplier;
+   
+    $stmt = $this->supplierController->removeSupplier();
+
+    return $stmt;
 }
+
+}
+
+
 ?>

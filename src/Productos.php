@@ -46,6 +46,22 @@ class Product{
         return $stmt;
          
     }
+    public function deleteProduct() {
+        $query = "DELETE FROM " . $this->table_name. " WHERE id_product = :id_product ";
+        $stmt = $this->conn->prepare($query);
+  
+         $this->id_product = htmlspecialchars(strip_tags($this->id_product));
+
+       
+            $stmt->bindParam(":id_product",$this->id_product);
+         
+        if($stmt->execute()){
+            return true;
+
+        }
+        return false;   
+
+    }
 
 
 }

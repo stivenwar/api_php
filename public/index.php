@@ -21,6 +21,7 @@ require_once __DIR__ .'/../routes/routesHandlers.php';
 
 $productController = new ProductController();
 $quantityController = new QuantityController();
+$supplierController = new SuppliersController();
 //$requestUri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
 
@@ -118,6 +119,39 @@ $map->post('sendQuantity', '/sendQuantity', function ($request, $response) use (
   
     
 });
+$map->delete("deleteSupplier","/delete-supplier", function($request,$response) use ($supplierController){
+$json = json_decode($request->getBody()->getContents(), true);
+    var_dump($json["id_supplier"]);
+
+    $allok = $supplierController->removeSupplierController($json["id_supplier"]);
+    if(!$allok){
+         $response->getBody()->write("Archivo no encontrado");
+        return $response->withStatus(404);
+            
+    }
+
+      $response->getBody()->write("success");
+        return $response->withStatus(201);
+
+});
+
+$map->delete("deleteProduct","/delete-product", function($request,$response) use ($productController){
+$json = json_decode($request->getBody()->getContents(), true);
+
+    $allok = $productController->deleteProduct($json["id_product"]);
+
+    if(!$allok){
+         $response->getBody()->write("Archivo no encontrado");
+        return $response->withStatus(404);
+            
+    }
+
+      $response->getBody()->write("success");
+        return $response->withStatus(201);
+
+});
+
+
 
 $matcher = $routerContainer->getMatcher();
 

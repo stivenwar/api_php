@@ -5,7 +5,7 @@ class Suppliers {
     private $conn;
     private $table_name = "suppliers";
 
-    public $id_supplier;
+    public $id_suppliers;
     public $supplier;
     public $description;
     public $created_at;
@@ -35,31 +35,33 @@ class Suppliers {
         return false;
     }
     public function readSuppliers (){
-        $query = "SELECT
-    json_agg(
+        $query = "SELECT json_agg(
         json_build_object(
             'id_suppliers', s.id_suppliers,
             'supplier', s.supplier,
             'description', s.description,
             'created_at', s.created_at,
             'products', COALESCE((
-                SELECT json_agg(
-                    json_build_object(
+                SELECT json_agg(producto)
+                FROM (
+                    SELECT json_build_object(
                         'id_product', p.id_product,
                         'id_supplier', p.id_supplier,
                         'name_product', p.name_product,
                         'description_product', p.description_product,
                         'created_at', p.created_at,
-                        'quantity', COALESCE(q.quantity, 0)  -- Aquí añadimos cantidad
-                    )
-                )
-                FROM products p
-                LEFT JOIN products_quantity q ON q.id_product = p.id_product
-                WHERE p.id_supplier = s.id_suppliers
+                        'quantity', COALESCE(q.quantity, 0)
+                    ) AS producto
+                    FROM products p
+                    LEFT JOIN products_quantity q ON q.id_product = p.id_product
+                    WHERE p.id_supplier = s.id_suppliers
+                    ORDER BY p.id_product ASC
+                ) AS productos_ordenados
             ), '[]'::json)
         )
     ) AS suppliers_with_products
-FROM suppliers s;";
+FROM suppliers s;
+";
     
         $stmt = $this->conn->prepare($query);
      
@@ -67,5 +69,25 @@ FROM suppliers s;";
 
         return $stmt;
     
+    }
+
+    public function removeSupplier(){
+
+        $query = "DELETE FROM ". $this->table_name ." WHERE id_suppliers = :id_supplier";
+        
+        // var_dump($query);
+         $stmt = $this->conn->prepare($query);
+
+        $this->id_suppliers  = htmlspecialchars(strip_tags($this->id_suppliers));
+        var_dump($this->id_suppliers);
+    
+        $stmt->bindParam(":id_supplier",$this->id_suppliers);
+
+        if($stmt->execute()){
+            return true;
+
+        }
+        return false;
+
     }
 }

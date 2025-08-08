@@ -4,19 +4,26 @@
 require_once __DIR__ . '/../src/SuppliersController.php';
 
 function getSupliersHandler($request,$response){
- $supplierController = new SuppliersController();
+    $supplierController = new SuppliersController();
 
-    $data = $supplierController->read();    
-  
-       // array devuelto
+    try {
+        $data = $supplierController->read();
+        $status = 200;
 
-    $json = json_encode($data);
-  
+        $payload = [
+            'success' => true,
+            'data' => $data
+        ];
 
-    $response->getBody()->write($json);
+    } catch (Exception $e) {
+        $status = 500;
+        $payload = [
+            'success' => false,
+            'error' => $e->getMessage()
+        ];
+    }
 
-    // Si la lista está vacía, eliges 404 o 200 según tu criterio:
-    $status = empty($data) ? 404 : 200;
+    $response->getBody()->write(json_encode($payload));
 
     return $response
         ->withHeader('Content-Type', 'application/json; charset=utf-8')
