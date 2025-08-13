@@ -114,7 +114,7 @@ $map->post('sendQuantity', '/sendQuantity', function ($request, $response) use (
             
     }
 
-      $response->getBody()->write("success");
+      $response->getBody()->write(json_encode(["success" => true]));
         return $response->withStatus(201);
   
     
