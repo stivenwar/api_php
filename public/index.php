@@ -1,15 +1,15 @@
 <?php
 // Función para manejar CORS
-function handleCors(): void {
-    header("Access-Control-Allow-Origin: *");
-    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-    header("Access-Control-Allow-Headers: Content-Type, Authorization");
-    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-        http_response_code(204);
-        exit;
-    }
-}
-handleCors();
+// function handleCors(): void {
+//     header("Access-Control-Allow-Origin: *");
+//     header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+//     header("Access-Control-Allow-Headers: Content-Type, Authorization");
+//     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+//         http_response_code(204);
+//         exit;
+//     }
+// }
+// handleCors();
 
 // Función para añadir CORS a cualquier objeto Response de Laminas
 function addCorsToResponse($response) {
