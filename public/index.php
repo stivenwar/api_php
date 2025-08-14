@@ -18,6 +18,17 @@ function addCorsToResponse($response) {
         ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
         ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 }
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    $response = new Laminas\Diactoros\Response();
+    $response = addCorsToResponse($response);
+    http_response_code(204);
+    foreach ($response->getHeaders() as $name => $values) {
+        foreach ($values as $value) {
+            header(sprintf('%s: %s', $name, $value), false);
+        }
+    }
+    exit;
+}
 
 use Aura\Router\RouterContainer;
 
